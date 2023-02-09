@@ -1,0 +1,9 @@
+package_rename_config:
+  android:
+    app_name: Fishy
+    package_name: com.gidrokolbaska.fishy
+
+  ios:
+    app_name: Fishy
+    bundle_name: fishy
+    package_name: com.gidrokolbaska.fishy
