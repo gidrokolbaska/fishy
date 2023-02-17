@@ -13,4 +13,5 @@ const Color grayscaleOffBlack = Color(0xff14142B);
 const Color grayscaleOffwhite = Color(0xffFCFCFC);
 const Color grayscaleLabel = Color(0xff6E7191);
 const Color grayscaleBG = Color(0xffF7F7FC);
+const Color grayscaleBody = Color(0xff4E4B66);
 const Color red500 = Color(0xffE61B00);

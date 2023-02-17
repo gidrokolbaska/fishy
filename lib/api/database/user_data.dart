@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../models/user.dart';
 
@@ -45,7 +46,7 @@ class UserData {
             ),
           ]);
     } on AppwriteException catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 

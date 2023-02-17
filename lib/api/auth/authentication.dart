@@ -1,15 +1,44 @@
-import 'dart:developer';
+import 'dart:async';
 
 import 'package:appwrite/appwrite.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fishy/routing/app_router.gr.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:appwrite/models.dart' as models;
+import 'package:uni_links/uni_links.dart';
 
 import '../../providers/user_data_provider.dart';
+
+class DeeplinkNotifier extends StateNotifier<Uri?> {
+  DeeplinkNotifier() : super(null) {
+    initDeeplinksForAccountVerification();
+  }
+  StreamSubscription<Uri?>? sub;
+
+  void initDeeplinksForAccountVerification() async {
+    sub = uriLinkStream.listen((Uri? uri) {
+      print('FETCHED DEEPLINK: $uri');
+      state = uri;
+    }, onError: (Object error) {
+      debugPrint('$error');
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    sub?.cancel();
+    sub = null;
+  }
+}
+
+final deeplinkNotifierProvider =
+    StateNotifierProvider.autoDispose<DeeplinkNotifier, Uri?>(
+        (ref) => DeeplinkNotifier());
 
 class Authentication {
   Authentication(this.client) {
@@ -27,7 +56,7 @@ class Authentication {
     try {
       return await account.get();
     } on AppwriteException catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -35,61 +64,119 @@ class Authentication {
   // A function to login the user with email and password
   Future<void> login(String email, String password, BuildContext context,
       WidgetRef ref) async {
+    //TODO: implement account verification here as well
     try {
       await account.createEmailSession(email: email, password: password);
 
       if (context.mounted) {
         context.router.replace(const FishyMainScreenRoute());
       }
-    } catch (e) {
-      await showDialog(
+    } on AppwriteException catch (e) {
+      late String errorMessage;
+      final connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        errorMessage = 'Отсутствует подключение к интернету';
+      }
+      switch (e.type) {
+        case 'user_invalid_credentials':
+          errorMessage =
+              'Введены неверная почта или пароль. Либо такого аккаунта не существует';
+          break;
+        case 'user_already_exists':
+          errorMessage =
+              'Пользователь с такими данными уже существует. Перейдите на экран авторизации';
+          break;
+        default:
+          errorMessage = e.toString();
+      }
+      print('hello?');
+      if (context.mounted) {
+        await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: const Text('Error Occured'),
-                content: Text(e.toString()),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        context.router.pop();
-                      },
-                      child: const Text("Ok"))
-                ],
-              ));
+            title: const Text('Внимание'),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  context.router.pop();
+                },
+                child: const Text("ОК"),
+              )
+            ],
+          ),
+        );
+      }
     }
   }
 
   ///  A function to signup the user with email and password
   Future<void> signUp(String email, String password, BuildContext context,
       WidgetRef ref) async {
-    final _userData = ref.watch(userDataClassProvider);
+    final userData = ref.watch(userDataClassProvider);
+    final kEmail = email;
+    final kPassword = password;
     try {
-      await account
-          .create(email: email, password: password, userId: 'unique()')
-          .whenComplete(
-        () async {
-          await account.createEmailSession(email: email, password: password);
-          await _userData.addUser();
-        },
-      );
+      //create account
+      models.Account createdAccount = await account.create(
+          email: kEmail, password: kPassword, userId: ID.unique());
+      print('account has been created');
+      //show the dialog in order to ask the user to verify the account if it is not verified
+      if (createdAccount.emailVerification == false) {
+        print('account is not verified');
 
-      if (context.mounted) {
-        context.router.replace(const FishyMainScreenRoute());
+        //create the session (login) in order to be able to send the verification email
+        await account.createEmailSession(email: kEmail, password: kPassword);
+
+        print('sending verification email');
+        //send the account verification email
+        await account.createVerification(
+          url: 'http://192.168.0.101:5500',
+        );
+
+        if (context.mounted) {
+          print('showing the confirmation dialog');
+          // account.updateVerification(
+          //     userId: , secret: );
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) => VerificationDialogWidget(),
+          );
+          await userData.addUser();
+          if (context.mounted) {
+            context.router.replace(const FishyMainScreenRoute());
+          }
+        }
       }
-    } catch (e) {
-      log(" Sign Up $e");
-      await showDialog(
+    } on AppwriteException catch (e) {
+      String errorMessage = e.toString();
+      final connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        errorMessage = 'Отсутствует подключение к интернету';
+      }
+      switch (e.type) {
+        case 'user_already_exists':
+          errorMessage =
+              'Пользователь с такими данными уже существует. Перейдите на экран авторизации';
+          break;
+      }
+      if (context.mounted) {
+        await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: const Text('Error Occured'),
-                content: Text(e.toString()),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text("Ok"))
-                ],
-              ));
+            title: const Text('Внимание'),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("ОК"),
+              )
+            ],
+          ),
+        );
+      }
     }
   }
 
@@ -99,28 +186,53 @@ class Authentication {
       ///  it expects sessionID but by passing 'current' it redirects to
       ///  current loggedIn user in this application
       await account.deleteSession(sessionId: 'current');
-      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //   content: Text("Logged out Successfully"),
-      //   duration: Duration(seconds: 2),
-      // ));
+
       if (context.mounted) {
         context.router.replace(const AuthScreenRoute());
       }
-    } catch (e) {
+    } on AppwriteException catch (e) {
       // print(e);
       await showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: const Text('Something went wrong'),
-                content: Text(e.toString()),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text("Ok"))
-                ],
-              ));
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Something went wrong'),
+          content: Text(e.toString()),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Ok"))
+          ],
+        ),
+      );
     }
+  }
+}
+
+class VerificationDialogWidget extends ConsumerWidget {
+  const VerificationDialogWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final deeplinkUri = ref.watch(deeplinkNotifierProvider);
+    return AlertDialog(
+      title: const Text('Верификация'),
+      content: const Text(
+          'На указанную почту было отправлено письмо с ссылкой для верификации аккаунта. Перейдите в своё приложение для почты и перейдите по предоставленной ссылке. После чего нажмите на кнопку "Подтвердить" внизу этого окна'),
+      actions: [
+        TextButton(
+          onPressed: deeplinkUri == null
+              ? null
+              : () {
+                  print(deeplinkUri);
+                  Navigator.of(context).pop();
+                },
+          child: const Text("ПОДТВЕРДИТЬ"),
+        )
+      ],
+    );
   }
 }

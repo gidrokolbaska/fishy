@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class GreenButton extends StatefulWidget {
   const GreenButton({
@@ -29,7 +30,13 @@ class _GreenButtonState extends State<GreenButton> {
       ),
       onPressed: widget.onTap,
       child: widget.isLoading == null || widget.isLoading == false
-          ? Text(widget.buttonText)
+          ? Text(
+              widget.buttonText,
+              style: TextStyle(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            )
           : const CircularProgressIndicator.adaptive(),
     );
   }

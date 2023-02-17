@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:fishy/providers/auth_provider.dart';
 
 import 'package:fishy/reusable%20widgets/fishy_icons_icons.dart';
 import 'package:fishy/routing/app_router.gr.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../api/auth/authentication.dart';
 import '../../constants.dart';
 
 class FishyMainScreen extends ConsumerStatefulWidget {
@@ -18,6 +20,13 @@ class FishyMainScreen extends ConsumerStatefulWidget {
 }
 
 class _TestMainScreenState extends ConsumerState<FishyMainScreen> {
+  late final Authentication auth;
+  @override
+  void initState() {
+    super.initState();
+    auth = ref.read(authProvider);
+  }
+
   @override
   Widget build(BuildContext context) {
     // final position = ref.watch(fishyAppNavigationProvider);
@@ -34,6 +43,7 @@ class _TestMainScreenState extends ConsumerState<FishyMainScreen> {
         final tabsRouter = AutoTabsRouter.of(context);
 
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: grayscaleBG,
           appBar: tabsRouter.activeIndex != 0
               ? AppBar(
@@ -78,7 +88,15 @@ class _TestMainScreenState extends ConsumerState<FishyMainScreen> {
                     ),
                   ))
               : null,
-          drawer: const Drawer(),
+          drawer: Drawer(
+            child: Center(
+              child: ElevatedButton(
+                  onPressed: () {
+                    auth.signOut(context, ref);
+                  },
+                  child: Text('logout')),
+            ),
+          ),
           body: FadeThroughTransition(
             fillColor: Colors.transparent,
             animation: animation,

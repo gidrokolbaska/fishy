@@ -28,6 +28,14 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+             <!-- Deep links -->
+          
+            <intent-filter android:label="appwrite_email_confirmation">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="appwrite-callback-63dd026b480ab089a636" />
+      </intent-filter>
         </activity>
         <activity android:name="com.linusu.flutter_web_auth_2.CallbackActivity" android:exported="true">
       <intent-filter android:label="flutter_web_auth_2">

@@ -1,19 +1,31 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:fishy/constants.dart';
 import 'package:fishy/repositories/local_storage_repo.dart';
 import 'package:fishy/routing/app_router.gr.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:sizer/sizer.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPrefs = await SharedPreferences.getInstance();
+  await FlutterMapTileCaching.initialise(
+    settings: FMTCSettings(
+      defaultTileProviderSettings: FMTCTileProviderSettings(
+        behavior: CacheBehavior.cacheFirst,
+        cachedValidDuration: const Duration(
+          days: 14,
+        ),
+      ),
+    ),
+  );
+  //create the store for caching tiles
+  final store = FMTC.instance('fishyStore');
+  await store.manage.createAsync();
   runApp(
     ProviderScope(
       overrides: [sharedPrefsProvider.overrideWithValue(sharedPrefs)],
@@ -27,8 +39,6 @@ class MyApp extends ConsumerWidget {
   final _appRouter = AppRouter();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final router = ref.watch(routerProvider);
-
     return Sizer(
       builder: (BuildContext context, Orientation orientation,
           DeviceType deviceType) {
@@ -69,9 +79,12 @@ class MyApp extends ConsumerWidget {
             inputDecorationTheme: InputDecorationTheme(
               hintStyle: TextStyle(
                 color: grayscaleLabel,
-                fontSize: 15.sp,
+                fontSize: 12.sp,
                 letterSpacing: 0.75,
               ),
+            ),
+            listTileTheme: const ListTileThemeData(
+              textColor: grayscaleBody,
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(

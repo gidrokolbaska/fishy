@@ -29,9 +29,11 @@ class _AuthCheckerState extends ConsumerState<AuthChecker> {
   }
 
   void navigate(BuildContext context, PageRouteInfo pathName) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.router.replace(pathName);
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        context.router.replace(pathName);
+      },
+    );
   }
 
   @override

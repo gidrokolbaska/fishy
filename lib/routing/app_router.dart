@@ -1,9 +1,11 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
+
 import 'package:fishy/auth%20module/views/auth_screen.dart';
 import 'package:fishy/introduction%20module/views/introduction_screen.dart';
 
 import 'package:fishy/main%20app%20module/features/map%20feature/views/map_screen.dart';
+
 import 'package:fishy/main%20app%20module/views/points_screen.dart';
 import 'package:fishy/splash_screen.dart';
 import 'package:flutter/material.dart';

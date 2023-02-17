@@ -201,6 +201,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
+  connectivity_plus:
+    dependency: "direct main"
+    description:
+      name: connectivity_plus
+      sha256: "8875e8ed511a49f030e313656154e4bbbcef18d68dfd32eb853fac10bce48e96"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.3"
+  connectivity_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: connectivity_plus_platform_interface
+      sha256: cf1d1c28f4416f8c654d7dc3cd638ec586076255d407cef3ddbdaf178272a71a
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.4"
   convert:
     dependency: transitive
     description:
@@ -249,6 +265,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.4"
+  dbus:
+    dependency: transitive
+    description:
+      name: dbus
+      sha256: "6f07cba3f7b3448d42d015bfd3d53fe12e5b36da2423f23838efc1d5fb31a263"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.8"
   device_info_plus:
     dependency: transitive
     description:
@@ -347,6 +371,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.0+2"
+  flutter_map_tile_caching:
+    dependency: "direct main"
+    description:
+      name: flutter_map_tile_caching
+      sha256: "7048329b4b7effed223e14764900503026a711a4c7711c027c30495e2d91ba97"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.2"
   flutter_riverpod:
     dependency: "direct main"
     description:
@@ -533,6 +565,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  isar:
+    dependency: transitive
+    description:
+      name: isar
+      sha256: "814695aa17cd1e725f7b751264cc45f0780b9070be6138c556d8b02c19117e48"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.6-dev.0"
+  isar_flutter_libs:
+    dependency: transitive
+    description:
+      name: isar_flutter_libs
+      sha256: "05d287b128b470bb1adfac515e098702b5957bf6b06a7d84b3bf82708b5b49ea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.6-dev.0"
   js:
     dependency: transitive
     description:
@@ -629,6 +677,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  nm:
+    dependency: transitive
+    description:
+      name: nm
+      sha256: "2c9aae4127bdc8993206464fcc063611e0e36e72018696cd9631023a31b24254"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.0"
   package_config:
     dependency: transitive
     description:
@@ -813,6 +869,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  queue:
+    dependency: transitive
+    description:
+      name: queue
+      sha256: "9a41ecadc15db79010108c06eae229a45c56b18db699760f34e8c9ac9b831ff9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0+2"
   riverpod:
     dependency: transitive
     description:
@@ -877,6 +941,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.3"
+  sheet:
+    dependency: "direct main"
+    description:
+      name: sheet
+      sha256: "4007db1db1c7000889d80efca8ab8009dd0ebe618dd77b5ed76cd9bda56763c0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0-pre"
   shelf:
     dependency: transitive
     description:
@@ -1002,6 +1074,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  uni_links:
+    dependency: "direct main"
+    description:
+      name: uni_links
+      sha256: "051098acfc9e26a9fde03b487bef5d3d228ca8f67693480c6f33fd4fbb8e2b6e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.1"
+  uni_links_platform_interface:
+    dependency: transitive
+    description:
+      name: uni_links_platform_interface
+      sha256: "929cf1a71b59e3b7c2d8a2605a9cf7e0b125b13bc858e55083d88c62722d4507"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  uni_links_web:
+    dependency: transitive
+    description:
+      name: uni_links_web
+      sha256: "7539db908e25f67de2438e33cc1020b30ab94e66720b5677ba6763b25f6394df"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   unicode:
     dependency: transitive
     description:
@@ -1156,4 +1252,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.19.0 <4.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.7.0"
