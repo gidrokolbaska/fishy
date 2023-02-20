@@ -14,6 +14,7 @@ dependencies:
   adaptive_theme: ^3.1.1
   animations: ^2.0.7
   appwrite: ^8.2.1
+  dart_appwrite: ^7.2.0
   auth_buttons: ^3.0.0
   auto_route: ^5.0.4
   connectivity_plus: ^3.0.3
@@ -38,6 +39,7 @@ dependencies:
   sizer: ^2.0.15
   uni_links: ^0.5.1
   url_launcher: ^6.1.8
+  rive: ^0.10.2
 
 dev_dependencies:
   auto_route_generator: ^5.0.3

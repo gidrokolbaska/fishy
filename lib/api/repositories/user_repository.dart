@@ -1,9 +1,10 @@
+
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../models/user.dart';
+import '../../models/fishy_user_model.dart';
 
-class UserData {
+class UserRepository {
   // We will be getting the instance of client through a provider
   final Client client;
 
@@ -18,7 +19,7 @@ class UserData {
   late Account account;
 
   // Initialize the class with the client
-  UserData(this.client) {
+  UserRepository(this.client) {
     account = Account(client);
     // storage = Storage(client);
     database = Databases(client);

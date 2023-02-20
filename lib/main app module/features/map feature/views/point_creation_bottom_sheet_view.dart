@@ -58,7 +58,10 @@ class CreatePointBottomSheet extends StatelessWidget {
                   child: SizedBox(
                     width: double.infinity,
                     child: MediaQuery.removePadding(
-                        context: context, removeTop: true, child: child),
+                      context: context,
+                      removeTop: true,
+                      child: child,
+                    ),
                   ),
                 ),
               ),

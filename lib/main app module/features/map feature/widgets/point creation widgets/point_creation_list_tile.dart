@@ -7,23 +7,32 @@ class PointCreationListTile extends StatelessWidget {
     super.key,
     required this.title,
     this.shouldShowUnderlineBorder = true,
-    required this.onTap,
+    this.onTap,
+    this.subtitle,
+    this.showTrailing = true,
   });
   final String title;
   final bool shouldShowUnderlineBorder;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final Widget? subtitle;
+  final bool showTrailing;
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: grayscaleInput,
-            width: 2,
-          ),
-        ),
+      decoration: BoxDecoration(
+        border: shouldShowUnderlineBorder
+            ? const Border(
+                bottom: BorderSide(
+                  color: grayscaleInput,
+                  width: 2,
+                ),
+              )
+            : const Border(
+                bottom: BorderSide.none,
+              ),
       ),
       child: ListTile(
+        dense: true,
         title: Text(
           title,
           style: const TextStyle(
@@ -31,12 +40,12 @@ class PointCreationListTile extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        trailing: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            FishyIcons.chevronForward,
-          ),
-        ),
+        trailing: showTrailing
+            ? const Icon(
+                FishyIcons.chevronForward,
+              )
+            : null,
+        subtitle: subtitle,
         onTap: onTap,
       ),
     );

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:appwrite/appwrite.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:fishy/api/providers/user_repository_provider.dart';
+
 import 'package:fishy/routing/app_router.gr.dart';
 
 import 'package:flutter/material.dart';
@@ -10,8 +12,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:appwrite/models.dart' as models;
 import 'package:uni_links/uni_links.dart';
-
-import '../../providers/user_data_provider.dart';
 
 class DeeplinkNotifier extends StateNotifier<Uri?> {
   DeeplinkNotifier() : super(null) {
@@ -21,7 +21,6 @@ class DeeplinkNotifier extends StateNotifier<Uri?> {
 
   void initDeeplinksForAccountVerification() async {
     sub = uriLinkStream.listen((Uri? uri) {
-      print('FETCHED DEEPLINK: $uri');
       state = uri;
     }, onError: (Object error) {
       debugPrint('$error');
@@ -89,7 +88,7 @@ class Authentication {
         default:
           errorMessage = e.toString();
       }
-      print('hello?');
+
       if (context.mounted) {
         await showDialog(
           context: context,
@@ -113,34 +112,30 @@ class Authentication {
   ///  A function to signup the user with email and password
   Future<void> signUp(String email, String password, BuildContext context,
       WidgetRef ref) async {
-    final userData = ref.watch(userDataClassProvider);
+    final userData = ref.read(userRepositoryProvider);
     final kEmail = email;
     final kPassword = password;
     try {
       //create account
       models.Account createdAccount = await account.create(
           email: kEmail, password: kPassword, userId: ID.unique());
-      print('account has been created');
+
       //show the dialog in order to ask the user to verify the account if it is not verified
       if (createdAccount.emailVerification == false) {
-        print('account is not verified');
-
         //create the session (login) in order to be able to send the verification email
         await account.createEmailSession(email: kEmail, password: kPassword);
 
-        print('sending verification email');
         //send the account verification email
         await account.createVerification(
           url: 'http://192.168.0.101:5500',
         );
 
         if (context.mounted) {
-          print('showing the confirmation dialog');
           // account.updateVerification(
           //     userId: , secret: );
           await showDialog(
             context: context,
-            builder: (BuildContext context) => VerificationDialogWidget(),
+            builder: (BuildContext context) => const VerificationDialogWidget(),
           );
           await userData.addUser();
           if (context.mounted) {
@@ -227,7 +222,6 @@ class VerificationDialogWidget extends ConsumerWidget {
           onPressed: deeplinkUri == null
               ? null
               : () {
-                  print(deeplinkUri);
                   Navigator.of(context).pop();
                 },
           child: const Text("ПОДТВЕРДИТЬ"),

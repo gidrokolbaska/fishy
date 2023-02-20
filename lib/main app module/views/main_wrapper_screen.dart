@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:fishy/providers/auth_provider.dart';
+import 'package:fishy/api/providers/auth_provider.dart';
+import 'package:fishy/api/providers/server_repository_provider.dart';
+import 'package:fishy/api/providers/current_logged_in_user_provider.dart';
 
 import 'package:fishy/reusable%20widgets/fishy_icons_icons.dart';
 import 'package:fishy/routing/app_router.gr.dart';
@@ -25,7 +27,15 @@ class _TestMainScreenState extends ConsumerState<FishyMainScreen> {
   void initState() {
     super.initState();
     auth = ref.read(authProvider);
+    // getUser();
   }
+
+  // Future<void> getUser() async {
+  //   final currentUser = await ref.read(userDataClassProvider).getCurrentUser();
+  //   ref
+  //       .read(currentLoggedInProvider.notifier)
+  //       .update((user) => user = currentUser);
+  // }
 
   @override
   Widget build(BuildContext context) {

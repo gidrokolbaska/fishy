@@ -1,13 +1,14 @@
 //TODO: implement proper splash screen
 
 import 'package:auto_route/auto_route.dart';
-import 'package:fishy/providers/auth_provider.dart';
+
 import 'package:fishy/routing/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'api/providers/auth_provider.dart';
 import 'constants.dart';
 import 'repositories/local_storage_repo.dart';
 

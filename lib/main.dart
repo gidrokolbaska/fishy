@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:fishy/constants.dart';
 import 'package:fishy/repositories/local_storage_repo.dart';
 import 'package:fishy/routing/app_router.gr.dart';

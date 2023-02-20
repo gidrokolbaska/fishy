@@ -2,17 +2,14 @@ import 'dart:async';
 
 import 'package:animations/animations.dart';
 import 'package:auth_buttons/auth_buttons.dart';
+import 'package:fishy/api/providers/auth_provider.dart';
 import 'package:fishy/constants.dart';
 import 'package:fishy/reusable%20widgets/green_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
 import 'package:sizer/sizer.dart';
-import 'package:uni_links/uni_links.dart';
-
-import '../../providers/auth_provider.dart';
 import '../../api/auth/authentication.dart';
 import '../widgets/auth_text_field.dart';
 
