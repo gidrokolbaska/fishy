@@ -4,6 +4,7 @@ import 'package:fishy/main%20app%20module/features/map%20feature/providers/zoomi
 import 'package:fishy/reusable%20widgets/fishy_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ZoomType {
@@ -26,6 +27,7 @@ class FishyMapRightButtons extends ConsumerStatefulWidget {
   final IconData locationIcon;
   final ValueNotifier<bool> notifier;
   final StreamController<double?> followCurrentLocationStreamController;
+  final LocationMarkerPosition? locationData;
 
   const FishyMapRightButtons({
     super.key,
@@ -42,6 +44,7 @@ class FishyMapRightButtons extends ConsumerStatefulWidget {
     this.zoomOutIcon = Icons.zoom_out,
     required this.notifier,
     required this.followCurrentLocationStreamController,
+    required this.locationData,
   });
 
   @override
@@ -147,14 +150,15 @@ class _FlutterMapZoomButtonsState extends ConsumerState<FishyMapRightButtons>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const Spacer(flex: 4),
+            if (widget.locationData != null) const Spacer(flex: 4),
             Padding(
               padding: EdgeInsets.only(
                   left: widget.padding,
                   top: widget.padding,
                   right: widget.padding),
-              child: IconButton(
-                style: ElevatedButton.styleFrom(
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
                   shadowColor: Colors.black,
                   backgroundColor: widget.zoomInColor ??
                       Theme.of(context).primaryColor.withOpacity(0.6),
@@ -172,7 +176,8 @@ class _FlutterMapZoomButtonsState extends ConsumerState<FishyMapRightButtons>
                     isMinZoom: isMinZoom,
                   );
                 },
-                icon: Icon(widget.zoomInIcon,
+                onLongPress: () {},
+                child: Icon(widget.zoomInIcon,
                     color: !isMaxZoom
                         ? widget.zoomInColorIcon ?? IconTheme.of(context).color
                         : widget.zoomInColorIcon?.withOpacity(0.5) ??
@@ -181,10 +186,11 @@ class _FlutterMapZoomButtonsState extends ConsumerState<FishyMapRightButtons>
             ),
             Padding(
               padding: EdgeInsets.all(widget.padding),
-              child: IconButton(
-                style: ElevatedButton.styleFrom(
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
                   shadowColor: Colors.black,
-                  backgroundColor: widget.zoomOutColor ??
+                  backgroundColor: widget.zoomInColor ??
                       Theme.of(context).primaryColor.withOpacity(0.6),
                   surfaceTintColor: Colors.white,
                   animationDuration: const Duration(milliseconds: 500),
@@ -200,19 +206,22 @@ class _FlutterMapZoomButtonsState extends ConsumerState<FishyMapRightButtons>
                     isMinZoom: isMinZoom,
                   );
                 },
-                icon: Icon(widget.zoomOutIcon,
+                onLongPress: () {},
+                child: Icon(widget.zoomOutIcon,
                     color: !isMinZoom
                         ? widget.zoomOutColorIcon ?? IconTheme.of(context).color
                         : widget.zoomOutColorIcon?.withOpacity(0.5) ??
                             IconTheme.of(context).color?.withOpacity(0.5)),
               ),
             ),
-            const Spacer(
-              flex: 2,
-            ),
-            CurrentLocationButton(
-              widget: widget,
-            ),
+            if (widget.locationData != null)
+              const Spacer(
+                flex: 2,
+              ),
+            if (widget.locationData != null)
+              CurrentLocationButton(
+                widget: widget,
+              ),
           ],
         ),
       ),

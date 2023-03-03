@@ -1,29 +1,44 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class PointModel {
   final String positionName;
   final String? positionDescription;
-  final double lat;
-  final double lon;
+  final double latitude;
+  final double longitude;
+  final DateTime? dateOfFishing;
+  final bool isDay;
+  final double? depth;
   PointModel({
     required this.positionName,
     this.positionDescription,
-    required this.lat,
-    required this.lon,
+    required this.latitude,
+    required this.longitude,
+    this.dateOfFishing,
+    this.isDay = true,
+    this.depth,
   });
 
   PointModel copyWith({
     String? positionName,
     String? positionDescription,
-    double? lat,
-    double? lon,
+    double? latitude,
+    double? longitude,
+    DateTime? dateOfFishing,
+    bool? isDay,
+    double? depth,
   }) {
     return PointModel(
       positionName: positionName ?? this.positionName,
       positionDescription: positionDescription ?? this.positionDescription,
-      lat: lat ?? this.lat,
-      lon: lon ?? this.lon,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      dateOfFishing: dateOfFishing ?? this.dateOfFishing,
+      isDay: isDay ?? this.isDay,
+      depth: depth ?? this.depth,
     );
   }
 
@@ -31,8 +46,11 @@ class PointModel {
     return <String, dynamic>{
       'positionName': positionName,
       'positionDescription': positionDescription,
-      'lat': lat,
-      'lon': lon,
+      'latitude': latitude,
+      'longitude': longitude,
+      'dateOfFishing': dateOfFishing?.millisecondsSinceEpoch,
+      'isDay': isDay,
+      'depth': depth,
     };
   }
 
@@ -42,8 +60,13 @@ class PointModel {
       positionDescription: map['positionDescription'] != null
           ? map['positionDescription'] as String
           : null,
-      lat: map['lat'] as double,
-      lon: map['lon'] as double,
+      latitude: map['latitude'] as double,
+      longitude: map['longitude'] as double,
+      dateOfFishing: map['dateOfFishing'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['dateOfFishing'] as int)
+          : null,
+      isDay: map['isDay'] as bool,
+      depth: map['depth'] != null ? map['depth'] as double : null,
     );
   }
 
@@ -54,7 +77,7 @@ class PointModel {
 
   @override
   String toString() {
-    return 'PointModel(positionName: $positionName, positionDescription: $positionDescription, lat: $lat, lon: $lon)';
+    return 'PointModel(positionName: $positionName, positionDescription: $positionDescription, latitude: $latitude, longitude: $longitude, dateOfFishing: $dateOfFishing, isDay: $isDay, depth: $depth)';
   }
 
   @override
@@ -63,15 +86,30 @@ class PointModel {
 
     return other.positionName == positionName &&
         other.positionDescription == positionDescription &&
-        other.lat == lat &&
-        other.lon == lon;
+        other.latitude == latitude &&
+        other.longitude == longitude &&
+        other.dateOfFishing == dateOfFishing &&
+        other.isDay == isDay &&
+        other.depth == depth;
   }
 
   @override
   int get hashCode {
     return positionName.hashCode ^
         positionDescription.hashCode ^
-        lat.hashCode ^
-        lon.hashCode;
+        latitude.hashCode ^
+        longitude.hashCode ^
+        dateOfFishing.hashCode ^
+        isDay.hashCode ^
+        depth.hashCode;
   }
 }
+
+final pointsRef = FirebaseFirestore.instance
+    .collection('users')
+    .doc(FirebaseAuth.instance.currentUser!.uid)
+    .collection('points')
+    .withConverter(
+      fromFirestore: (snapshot, _) => PointModel.fromMap(snapshot.data()!),
+      toFirestore: (point, options) => point.toMap(),
+    );

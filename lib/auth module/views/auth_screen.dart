@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:animations/animations.dart';
 import 'package:auth_buttons/auth_buttons.dart';
-import 'package:fishy/api/providers/auth_provider.dart';
+
 import 'package:fishy/constants.dart';
 import 'package:fishy/reusable%20widgets/green_button.dart';
 import 'package:flutter/gestures.dart';
@@ -10,20 +10,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sizer/sizer.dart';
-import '../../api/auth/authentication.dart';
+
+import '../providers/auth_provider.dart';
+import '../repositories/authentication_repository.dart';
 import '../widgets/auth_text_field.dart';
 
 enum FormType { signin, signup }
 
 class AuthScreen extends ConsumerStatefulWidget {
-  const AuthScreen({super.key});
-
+  const AuthScreen({
+    super.key,
+    this.onLoginResult,
+  });
+  final void Function(bool isLoggedIn)? onLoginResult;
   @override
   ConsumerState<AuthScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends ConsumerState<AuthScreen> {
-  late final Authentication auth;
+  late final AuthenticationRepository auth;
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
   final ValueNotifier<FormType> _formTypeNotifier =
@@ -57,11 +62,15 @@ class _SignInScreenState extends ConsumerState<AuthScreen> {
     });
     FocusManager.instance.primaryFocus?.unfocus();
     if (_formTypeNotifier.value == FormType.signin) {
-      await auth.login(_emailTextController.text, _passwordTextController.text,
-          context, ref);
+      await auth.login(
+        _emailTextController.text,
+        _passwordTextController.text,
+        context,
+        ref,
+      );
     } else {
       await auth.signUp(_emailTextController.text, _passwordTextController.text,
-          context, ref);
+          context, ref, widget.onLoginResult);
     }
 
     setState(() {
@@ -97,7 +106,9 @@ class _SignInScreenState extends ConsumerState<AuthScreen> {
         ),
         GoogleAuthButton(
           isLoading: false,
-          onPressed: () {},
+          onPressed: () async {
+            auth.signInWithGoogle();
+          },
           text: 'Войти с Google',
           style: AuthButtonStyle(
             borderRadius: 32,

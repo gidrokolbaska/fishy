@@ -17,49 +17,77 @@ import 'package:fishy/introduction%20module/views/introduction_screen.dart'
     as _i2;
 import 'package:fishy/main%20app%20module/features/map%20feature/views/map_screen.dart'
     as _i6;
+import 'package:fishy/main%20app%20module/features/map%20feature/views/point_creation_main_view.dart'
+    as _i5;
 import 'package:fishy/main%20app%20module/views/gallery_screen.dart' as _i8;
 import 'package:fishy/main%20app%20module/views/main_wrapper_screen.dart'
-    as _i4;
+    as _i1;
 import 'package:fishy/main%20app%20module/views/point_details_screen.dart'
-    as _i5;
+    as _i4;
 import 'package:fishy/main%20app%20module/views/points_screen.dart' as _i7;
-import 'package:fishy/splash_screen.dart' as _i1;
+import 'package:fishy/routing/app_router.dart' as _i11;
 import 'package:flutter/material.dart' as _i10;
 
 class AppRouter extends _i9.RootStackRouter {
-  AppRouter([_i10.GlobalKey<_i10.NavigatorState>? navigatorKey])
-      : super(navigatorKey);
+  AppRouter({
+    _i10.GlobalKey<_i10.NavigatorState>? navigatorKey,
+    required this.introductionGuard,
+    required this.authGuard,
+  }) : super(navigatorKey);
+
+  final _i11.IntroductionGuard introductionGuard;
+
+  final _i11.AuthGuard authGuard;
 
   @override
   final Map<String, _i9.PageFactory> pagesMap = {
-    AuthCheckerRoute.name: (routeData) {
-      return _i9.AdaptivePage<dynamic>(
-        routeData: routeData,
-        child: const _i1.AuthChecker(),
-      );
-    },
-    FishyIntroductionScreenRoute.name: (routeData) {
-      return _i9.AdaptivePage<dynamic>(
-        routeData: routeData,
-        child: const _i2.FishyIntroductionScreen(),
-      );
-    },
-    AuthScreenRoute.name: (routeData) {
-      return _i9.AdaptivePage<dynamic>(
-        routeData: routeData,
-        child: const _i3.AuthScreen(),
-      );
-    },
     FishyMainScreenRoute.name: (routeData) {
       return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i4.FishyMainScreen(),
+        child: const _i1.FishyMainScreen(),
+      );
+    },
+    FishyIntroductionScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<FishyIntroductionScreenRouteArgs>(
+          orElse: () => const FishyIntroductionScreenRouteArgs());
+      return _i9.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: _i2.FishyIntroductionScreen(
+          key: args.key,
+          isComplete: args.isComplete,
+        ),
+      );
+    },
+    AuthScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<AuthScreenRouteArgs>(
+          orElse: () => const AuthScreenRouteArgs());
+      return _i9.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: _i3.AuthScreen(
+          key: args.key,
+          onLoginResult: args.onLoginResult,
+        ),
+        maintainState: false,
       );
     },
     PointDetailsScreenRoute.name: (routeData) {
       return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i5.PointDetailsScreen(),
+        child: const _i4.PointDetailsScreen(),
+      );
+    },
+    PointCreationMainRoute.name: (routeData) {
+      final args = routeData.argsAs<PointCreationMainRouteArgs>();
+      return _i9.CustomPage<dynamic>(
+        routeData: routeData,
+        child: _i5.PointCreationMain(
+          key: args.key,
+          topControl: args.topControl,
+          child: args.child,
+        ),
+        customRouteBuilder: _i11.modalsPageRoute,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
     FishyMapScreenRoute.name: (routeData) {
@@ -87,24 +115,16 @@ class AppRouter extends _i9.RootStackRouter {
         _i9.RouteConfig(
           '/#redirect',
           path: '/',
-          redirectTo: '/splash',
+          redirectTo: '/main',
           fullMatch: true,
-        ),
-        _i9.RouteConfig(
-          AuthCheckerRoute.name,
-          path: '/splash',
-        ),
-        _i9.RouteConfig(
-          FishyIntroductionScreenRoute.name,
-          path: '/intro',
-        ),
-        _i9.RouteConfig(
-          AuthScreenRoute.name,
-          path: '/auth',
         ),
         _i9.RouteConfig(
           FishyMainScreenRoute.name,
           path: '/main',
+          guards: [
+            introductionGuard,
+            authGuard,
+          ],
           children: [
             _i9.RouteConfig(
               FishyMapScreenRoute.name,
@@ -124,50 +144,26 @@ class AppRouter extends _i9.RootStackRouter {
           ],
         ),
         _i9.RouteConfig(
+          FishyIntroductionScreenRoute.name,
+          path: '/intro',
+        ),
+        _i9.RouteConfig(
+          AuthScreenRoute.name,
+          path: '/auth',
+        ),
+        _i9.RouteConfig(
           PointDetailsScreenRoute.name,
           path: '/pointDetails',
+        ),
+        _i9.RouteConfig(
+          PointCreationMainRoute.name,
+          path: '/point-creation-main',
         ),
       ];
 }
 
 /// generated route for
-/// [_i1.AuthChecker]
-class AuthCheckerRoute extends _i9.PageRouteInfo<void> {
-  const AuthCheckerRoute()
-      : super(
-          AuthCheckerRoute.name,
-          path: '/splash',
-        );
-
-  static const String name = 'AuthCheckerRoute';
-}
-
-/// generated route for
-/// [_i2.FishyIntroductionScreen]
-class FishyIntroductionScreenRoute extends _i9.PageRouteInfo<void> {
-  const FishyIntroductionScreenRoute()
-      : super(
-          FishyIntroductionScreenRoute.name,
-          path: '/intro',
-        );
-
-  static const String name = 'FishyIntroductionScreenRoute';
-}
-
-/// generated route for
-/// [_i3.AuthScreen]
-class AuthScreenRoute extends _i9.PageRouteInfo<void> {
-  const AuthScreenRoute()
-      : super(
-          AuthScreenRoute.name,
-          path: '/auth',
-        );
-
-  static const String name = 'AuthScreenRoute';
-}
-
-/// generated route for
-/// [_i4.FishyMainScreen]
+/// [_i1.FishyMainScreen]
 class FishyMainScreenRoute extends _i9.PageRouteInfo<void> {
   const FishyMainScreenRoute({List<_i9.PageRouteInfo>? children})
       : super(
@@ -180,7 +176,76 @@ class FishyMainScreenRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.PointDetailsScreen]
+/// [_i2.FishyIntroductionScreen]
+class FishyIntroductionScreenRoute
+    extends _i9.PageRouteInfo<FishyIntroductionScreenRouteArgs> {
+  FishyIntroductionScreenRoute({
+    _i10.Key? key,
+    void Function(bool)? isComplete,
+  }) : super(
+          FishyIntroductionScreenRoute.name,
+          path: '/intro',
+          args: FishyIntroductionScreenRouteArgs(
+            key: key,
+            isComplete: isComplete,
+          ),
+        );
+
+  static const String name = 'FishyIntroductionScreenRoute';
+}
+
+class FishyIntroductionScreenRouteArgs {
+  const FishyIntroductionScreenRouteArgs({
+    this.key,
+    this.isComplete,
+  });
+
+  final _i10.Key? key;
+
+  final void Function(bool)? isComplete;
+
+  @override
+  String toString() {
+    return 'FishyIntroductionScreenRouteArgs{key: $key, isComplete: $isComplete}';
+  }
+}
+
+/// generated route for
+/// [_i3.AuthScreen]
+class AuthScreenRoute extends _i9.PageRouteInfo<AuthScreenRouteArgs> {
+  AuthScreenRoute({
+    _i10.Key? key,
+    void Function(bool)? onLoginResult,
+  }) : super(
+          AuthScreenRoute.name,
+          path: '/auth',
+          args: AuthScreenRouteArgs(
+            key: key,
+            onLoginResult: onLoginResult,
+          ),
+        );
+
+  static const String name = 'AuthScreenRoute';
+}
+
+class AuthScreenRouteArgs {
+  const AuthScreenRouteArgs({
+    this.key,
+    this.onLoginResult,
+  });
+
+  final _i10.Key? key;
+
+  final void Function(bool)? onLoginResult;
+
+  @override
+  String toString() {
+    return 'AuthScreenRouteArgs{key: $key, onLoginResult: $onLoginResult}';
+  }
+}
+
+/// generated route for
+/// [_i4.PointDetailsScreen]
 class PointDetailsScreenRoute extends _i9.PageRouteInfo<void> {
   const PointDetailsScreenRoute()
       : super(
@@ -189,6 +254,46 @@ class PointDetailsScreenRoute extends _i9.PageRouteInfo<void> {
         );
 
   static const String name = 'PointDetailsScreenRoute';
+}
+
+/// generated route for
+/// [_i5.PointCreationMain]
+class PointCreationMainRoute
+    extends _i9.PageRouteInfo<PointCreationMainRouteArgs> {
+  PointCreationMainRoute({
+    _i10.Key? key,
+    required _i10.Widget Function(_i10.AnimationController) topControl,
+    required _i10.Widget Function(_i10.AnimationController) child,
+  }) : super(
+          PointCreationMainRoute.name,
+          path: '/point-creation-main',
+          args: PointCreationMainRouteArgs(
+            key: key,
+            topControl: topControl,
+            child: child,
+          ),
+        );
+
+  static const String name = 'PointCreationMainRoute';
+}
+
+class PointCreationMainRouteArgs {
+  const PointCreationMainRouteArgs({
+    this.key,
+    required this.topControl,
+    required this.child,
+  });
+
+  final _i10.Key? key;
+
+  final _i10.Widget Function(_i10.AnimationController) topControl;
+
+  final _i10.Widget Function(_i10.AnimationController) child;
+
+  @override
+  String toString() {
+    return 'PointCreationMainRouteArgs{key: $key, topControl: $topControl, child: $child}';
+  }
 }
 
 /// generated route for

@@ -26,12 +26,10 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>CFBundleURLName</key>
-			<string></string>
+			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>appwrite-callback-63dd026b480ab089a636</string>
+				<string>com.googleusercontent.apps.318681945641-dgto5u61khe9ic3vp2c68ti8kd3vb8lt</string>
 			</array>
 		</dict>
 	</array>

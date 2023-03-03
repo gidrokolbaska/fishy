@@ -1,7 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:fishy/constants.dart';
 import 'package:fishy/repositories/local_storage_repo.dart';
-import 'package:fishy/routing/app_router.gr.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,8 +12,8 @@ import 'package:sizer/sizer.dart';
 import '../../reusable widgets/green_button.dart';
 
 class FishyIntroductionScreen extends ConsumerStatefulWidget {
-  const FishyIntroductionScreen({super.key});
-
+  const FishyIntroductionScreen({super.key, this.isComplete});
+  final void Function(bool)? isComplete;
   @override
   ConsumerState<FishyIntroductionScreen> createState() =>
       _FishyIntroductionScreenState();
@@ -148,9 +146,13 @@ class _FishyIntroductionScreenState
                 child: GreenButton(
                   buttonSize: Size(45.w, 56),
                   buttonText: 'Начать',
-                  onTap: () {
-                    prefs.setBool(introCompletedKey, true);
-                    context.router.replace(const AuthScreenRoute());
+                  onTap: () async {
+                    widget.isComplete!(
+                      await prefs.setBool(
+                        introCompletedKey,
+                        true,
+                      ),
+                    );
                   },
                 ),
               ),

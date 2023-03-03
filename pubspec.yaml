@@ -13,33 +13,44 @@ environment:
 dependencies:
   adaptive_theme: ^3.1.1
   animations: ^2.0.7
-  appwrite: ^8.2.1
-  dart_appwrite: ^7.2.0
   auth_buttons: ^3.0.0
   auto_route: ^5.0.4
+  # calendar_date_picker2:
+  #   git: https://github.com/gidrokolbaska/calendar_date_picker2_fix_border_radius
+  cloud_firestore: ^4.4.2
   connectivity_plus: ^3.0.3
-  cupertino_icons: ^1.0.2
+  firebase_auth: ^4.2.8
+  firebase_core: ^2.6.1
+  firebase_ui_auth: ^1.1.13
+  firebase_ui_firestore: ^1.2.7
   flutter:
     sdk: flutter
+  flutter_animate: ^4.1.0
   flutter_localizations:
     sdk: flutter
   flutter_map: ^3.1.0
-  flutter_map_location_marker: ^5.2.0+2
+  flutter_map_location_marker:
+    git: https://github.com/gidrokolbaska/flutter_map_location_marker
+  flutter_map_marker_cluster:
+    git: https://github.com/gidrokolbaska/flutter_map_marker_cluster_fix_marker_tap
   flutter_map_tile_caching: ^7.0.2
   flutter_riverpod: ^2.1.3
   flutter_svg: ^1.1.6
+  flutter_vibrate: ^1.3.0
   form_builder_validators: ^8.4.0
   geolocator: ^9.0.2
   google_fonts: ^3.0.1
+  google_sign_in: ^6.0.0
   intl: ^0.17.0
   introduction_screen: ^3.1.4
   latlong2: ^0.8.1
+  modal_bottom_sheet: ^3.0.0-pre
+  rive: ^0.10.2
   shared_preferences: ^2.0.17
-  sheet: ^1.0.0-pre
   sizer: ^2.0.15
   uni_links: ^0.5.1
   url_launcher: ^6.1.8
-  rive: ^0.10.2
+  vertical_weight_slider: ^2.4.0
 
 dev_dependencies:
   auto_route_generator: ^5.0.3

@@ -7,6 +7,7 @@ const String introCompletedKey = 'introCompletedKey';
 const Color blackColor = Color(0xff000000);
 const Color primaryColor = Color(0xff03CFBB);
 const Color grayscalePlacehold = Color(0xffA0A3BD);
+const Color grayscaleLine = Color(0xffD9DBE9);
 const Color grayscaleInput = Color(0xffEFF0F6);
 const Color secondaryDefault = Color(0xff005BD4);
 const Color grayscaleOffBlack = Color(0xff14142B);

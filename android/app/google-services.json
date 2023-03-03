@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "318681945641",
+    "project_id": "fishygidrokolbaska",
+    "storage_bucket": "fishygidrokolbaska.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:318681945641:android:17e6fd9f9463103ac7ee38",
+        "android_client_info": {
+          "package_name": "com.gidrokolbaska.fishy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "318681945641-hvouoa00lbq8ddjl67rssbhn3v0fjlfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCevfsaDYiUemCFM7gSf_ZlRs6mHbps-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "318681945641-hvouoa00lbq8ddjl67rssbhn3v0fjlfo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

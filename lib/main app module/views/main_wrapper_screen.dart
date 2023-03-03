@@ -1,8 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:fishy/api/providers/auth_provider.dart';
-import 'package:fishy/api/providers/server_repository_provider.dart';
-import 'package:fishy/api/providers/current_logged_in_user_provider.dart';
+import 'package:fishy/auth%20module/repositories/authentication_repository.dart';
 
 import 'package:fishy/reusable%20widgets/fishy_icons_icons.dart';
 import 'package:fishy/routing/app_router.gr.dart';
@@ -11,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../api/auth/authentication.dart';
+import '../../auth module/providers/auth_provider.dart';
 import '../../constants.dart';
 
 class FishyMainScreen extends ConsumerStatefulWidget {
@@ -22,20 +20,12 @@ class FishyMainScreen extends ConsumerStatefulWidget {
 }
 
 class _TestMainScreenState extends ConsumerState<FishyMainScreen> {
-  late final Authentication auth;
+  late final AuthenticationRepository auth;
   @override
   void initState() {
     super.initState();
     auth = ref.read(authProvider);
-    // getUser();
   }
-
-  // Future<void> getUser() async {
-  //   final currentUser = await ref.read(userDataClassProvider).getCurrentUser();
-  //   ref
-  //       .read(currentLoggedInProvider.notifier)
-  //       .update((user) => user = currentUser);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +94,7 @@ class _TestMainScreenState extends ConsumerState<FishyMainScreen> {
                   onPressed: () {
                     auth.signOut(context, ref);
                   },
-                  child: Text('logout')),
+                  child: const Text('logout')),
             ),
           ),
           body: FadeThroughTransition(

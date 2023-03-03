@@ -1,13 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fishy/constants.dart';
 import 'package:fishy/repositories/local_storage_repo.dart';
+import 'package:fishy/routing/app_router.dart';
 import 'package:fishy/routing/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +30,9 @@ void main() async {
   //create the store for caching tiles
   final store = FMTC.instance('fishyStore');
   await store.manage.createAsync();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     ProviderScope(
       overrides: [sharedPrefsProvider.overrideWithValue(sharedPrefs)],
@@ -35,7 +43,8 @@ void main() async {
 
 class MyApp extends ConsumerWidget {
   MyApp({super.key});
-  final _appRouter = AppRouter();
+  final _appRouter =
+      AppRouter(introductionGuard: IntroductionGuard(), authGuard: AuthGuard());
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Sizer(
@@ -59,6 +68,12 @@ class MyApp extends ConsumerWidget {
             useMaterial3: true,
             primarySwatch: Colors.blue,
             primaryColor: primaryColor,
+            colorScheme: const ColorScheme.light(
+              primary: primaryColor,
+              //onSurface: grayscalePlacehold,
+              surfaceTint: Colors.white,
+              error: red500,
+            ),
             navigationBarTheme: const NavigationBarThemeData(
               indicatorColor: primaryColor,
             ),
@@ -84,6 +99,14 @@ class MyApp extends ConsumerWidget {
             ),
             listTileTheme: const ListTileThemeData(
               textColor: grayscaleBody,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: primaryColor,
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
