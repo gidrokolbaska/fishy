@@ -12,6 +12,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:cloud_firestore/cloud_firestore.dart' as _i12;
 import 'package:fishy/auth%20module/views/auth_screen.dart' as _i3;
 import 'package:fishy/introduction%20module/views/introduction_screen.dart'
     as _i2;
@@ -25,6 +26,7 @@ import 'package:fishy/main%20app%20module/views/main_wrapper_screen.dart'
 import 'package:fishy/main%20app%20module/views/point_details_screen.dart'
     as _i4;
 import 'package:fishy/main%20app%20module/views/points_screen.dart' as _i7;
+import 'package:fishy/models/fishy_point_model.dart' as _i13;
 import 'package:fishy/routing/app_router.dart' as _i11;
 import 'package:flutter/material.dart' as _i10;
 
@@ -71,9 +73,13 @@ class AppRouter extends _i9.RootStackRouter {
       );
     },
     PointDetailsScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<PointDetailsScreenRouteArgs>();
       return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i4.PointDetailsScreen(),
+        child: _i4.PointDetailsScreen(
+          key: args.key,
+          pointSnapshot: args.pointSnapshot,
+        ),
       );
     },
     PointCreationMainRoute.name: (routeData) {
@@ -246,14 +252,37 @@ class AuthScreenRouteArgs {
 
 /// generated route for
 /// [_i4.PointDetailsScreen]
-class PointDetailsScreenRoute extends _i9.PageRouteInfo<void> {
-  const PointDetailsScreenRoute()
-      : super(
+class PointDetailsScreenRoute
+    extends _i9.PageRouteInfo<PointDetailsScreenRouteArgs> {
+  PointDetailsScreenRoute({
+    _i10.Key? key,
+    required _i12.QueryDocumentSnapshot<_i13.PointModel> pointSnapshot,
+  }) : super(
           PointDetailsScreenRoute.name,
           path: '/pointDetails',
+          args: PointDetailsScreenRouteArgs(
+            key: key,
+            pointSnapshot: pointSnapshot,
+          ),
         );
 
   static const String name = 'PointDetailsScreenRoute';
+}
+
+class PointDetailsScreenRouteArgs {
+  const PointDetailsScreenRouteArgs({
+    this.key,
+    required this.pointSnapshot,
+  });
+
+  final _i10.Key? key;
+
+  final _i12.QueryDocumentSnapshot<_i13.PointModel> pointSnapshot;
+
+  @override
+  String toString() {
+    return 'PointDetailsScreenRouteArgs{key: $key, pointSnapshot: $pointSnapshot}';
+  }
 }
 
 /// generated route for

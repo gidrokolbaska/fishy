@@ -1,17 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-
-final positionStreamProvider = StreamProvider.autoDispose((ref) async* {
-  const factory = LocationMarkerDataStreamFactory();
-  yield await factory
-      .fromGeolocatorPositionStream(stream: defaultPositionStreamSource())
-      .asBroadcastStream()
-      .first
-      .then((value) => value);
-});
 
 /// Create a position stream which is used as default value of
 /// [CurrentLocationLayer.positionStream].

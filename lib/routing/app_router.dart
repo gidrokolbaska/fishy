@@ -1,15 +1,10 @@
-import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:fishy/auth%20module/views/auth_screen.dart';
 import 'package:fishy/constants.dart';
 import 'package:fishy/introduction%20module/views/introduction_screen.dart';
-import 'package:auto_route/empty_router_widgets.dart';
 import 'package:fishy/main%20app%20module/features/map%20feature/views/map_screen.dart';
 import 'package:fishy/main%20app%20module/features/map%20feature/views/point_creation_main_view.dart';
-import 'package:fishy/main%20app%20module/features/map%20feature/views/point_creation_depth_view.dart';
-
 import 'package:fishy/main%20app%20module/views/points_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

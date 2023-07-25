@@ -27,6 +27,7 @@ class FishyMapRightButtons extends ConsumerStatefulWidget {
   final IconData locationIcon;
   final ValueNotifier<bool> notifier;
   final StreamController<double?> followCurrentLocationStreamController;
+  final Stream<LocationMarkerPosition?> positionStream;
   final LocationMarkerPosition? locationData;
 
   const FishyMapRightButtons({
@@ -38,13 +39,14 @@ class FishyMapRightButtons extends ConsumerStatefulWidget {
     this.zoomInColor,
     this.zoomInColorIcon,
     this.zoomInIcon = Icons.zoom_in,
-    this.locationIcon = FishyIcons.currentGeo,
+    this.locationIcon = FishyIcons.current_geo,
     this.zoomOutColor,
     this.zoomOutColorIcon,
     this.zoomOutIcon = Icons.zoom_out,
     required this.notifier,
     required this.followCurrentLocationStreamController,
     required this.locationData,
+    required this.positionStream,
   });
 
   @override
@@ -158,7 +160,9 @@ class _FlutterMapZoomButtonsState extends ConsumerState<FishyMapRightButtons>
                   right: widget.padding),
               child: FilledButton(
                 style: FilledButton.styleFrom(
+                  elevation: 0,
                   visualDensity: VisualDensity.compact,
+                  padding: EdgeInsets.zero,
                   shadowColor: Colors.black,
                   backgroundColor: widget.zoomInColor ??
                       Theme.of(context).primaryColor.withOpacity(0.6),
@@ -188,7 +192,9 @@ class _FlutterMapZoomButtonsState extends ConsumerState<FishyMapRightButtons>
               padding: EdgeInsets.all(widget.padding),
               child: FilledButton(
                 style: FilledButton.styleFrom(
+                  elevation: 0,
                   visualDensity: VisualDensity.compact,
+                  padding: EdgeInsets.zero,
                   shadowColor: Colors.black,
                   backgroundColor: widget.zoomInColor ??
                       Theme.of(context).primaryColor.withOpacity(0.6),
@@ -218,10 +224,9 @@ class _FlutterMapZoomButtonsState extends ConsumerState<FishyMapRightButtons>
               const Spacer(
                 flex: 2,
               ),
-            if (widget.locationData != null)
-              CurrentLocationButton(
-                widget: widget,
-              ),
+            CurrentLocationButton(
+              widget: widget,
+            ),
           ],
         ),
       ),
@@ -244,29 +249,40 @@ class CurrentLocationButton extends StatefulWidget {
 class _CurrentLocationButtonState extends State<CurrentLocationButton> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 45.0),
-      child: IconButton(
-        style: ElevatedButton.styleFrom(
-          shadowColor: Colors.black,
-          backgroundColor: widget.widget.zoomInColor ??
-              Theme.of(context).primaryColor.withOpacity(0.6),
-          surfaceTintColor: Colors.white,
-          animationDuration: const Duration(milliseconds: 500),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          fixedSize: const Size(56, 56),
-        ),
-        onPressed: () {
-          // Follow the location marker on the map and zoom the map to level 18.
-          widget.widget.followCurrentLocationStreamController
-              .add(widget.widget.maxZoom - 2);
-        },
-        icon: Icon(widget.widget.locationIcon,
-            color:
-                widget.widget.zoomInColorIcon ?? IconTheme.of(context).color),
-      ),
+    return StreamBuilder(
+      stream: widget.widget.positionStream,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasData) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 45.0),
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                visualDensity: VisualDensity.compact,
+                elevation: 0,
+                padding: EdgeInsets.zero,
+                shadowColor: Colors.black,
+                backgroundColor: widget.widget.zoomInColor ??
+                    Theme.of(context).primaryColor.withOpacity(0.6),
+                surfaceTintColor: Colors.white,
+                animationDuration: const Duration(milliseconds: 500),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                fixedSize: const Size(56, 56),
+              ),
+              onLongPress: () {},
+              onPressed: () {
+                // Follow the location marker on the map and zoom the map to level 18.
+                widget.widget.followCurrentLocationStreamController
+                    .add(widget.widget.maxZoom - 2);
+              },
+              child: Icon(widget.widget.locationIcon,
+                  color: widget.widget.zoomInColorIcon ??
+                      IconTheme.of(context).color),
+            ),
+          );
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 }

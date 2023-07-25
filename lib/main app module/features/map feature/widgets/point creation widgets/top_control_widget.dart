@@ -1,12 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fishy/api/database/firestore_service.dart';
-
 import 'package:fishy/constants.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:latlong2/latlong.dart';
 
 class TopControlWidget extends ConsumerStatefulWidget {
@@ -47,6 +44,9 @@ class _TopControlWidgetState extends ConsumerState<TopControlWidget> {
                 style: TextStyle(fontSize: 13),
               ),
             ),
+            const SizedBox(
+              width: 10,
+            ),
             Flexible(
               child: ElevatedButton(
                 onPressed: () async {
@@ -68,14 +68,19 @@ class _TopControlWidgetState extends ConsumerState<TopControlWidget> {
                   backgroundColor: grayscaleInput,
                   foregroundColor: Colors.black,
                 ),
-                child: Text(
-                  '${widget.point.latitude.toStringAsFixed(6)},${widget.point.longitude.toStringAsFixed(6)}',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal,
+                child: FittedBox(
+                  child: Text(
+                    '${widget.point.latitude.toStringAsFixed(6)},${widget.point.longitude.toStringAsFixed(6)}',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
               ),
+            ),
+            const SizedBox(
+              width: 10,
             ),
             ElevatedButton(
               onPressed: () async {

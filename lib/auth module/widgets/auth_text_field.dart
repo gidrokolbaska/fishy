@@ -122,7 +122,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
                     color: grayscaleOffBlack,
                   )
                 : const Icon(
-                    FishyIcons.passwordRepeat,
+                    FishyIcons.password_repeat,
                     color: grayscaleOffBlack,
                   ),
         border: OutlineInputBorder(

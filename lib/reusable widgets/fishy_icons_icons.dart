@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/FishyIcons.ttf
 ///
-///
+/// 
 ///
 import 'package:flutter/widgets.dart';
 
@@ -21,62 +21,36 @@ class FishyIcons {
   static const _kFontFam = 'FishyIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData depth =
-      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData mapmarker =
-      IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData mail =
-      IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData password =
-      IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData passwordRepeat =
-      IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData map =
-      IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData location =
-      IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData gallery =
-      IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData gps =
-      IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData calendar =
-      IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData fishingrod_1 =
-      IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData filledLocation =
-      IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData depthType =
-      IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData menuLeft =
-      IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData scroll =
-      IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData delete =
-      IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData star =
-      IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData edit =
-      IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData view =
-      IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData minus =
-      IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData currentGeo =
-      IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData plus =
-      IconData(0xe817, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData chevronBack =
-      IconData(0xe818, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData share =
-      IconData(0xe819, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData chevronForward =
-      IconData(0xe81a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData arrowDown =
-      IconData(0xe81b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData bug =
-      IconData(0xe81c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData messagBubble =
-      IconData(0xe81d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData question =
-      IconData(0xe81e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData gps = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData no_fish = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData mail = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData password = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData password_repeat = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData map = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData location = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData gallery = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData depth = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData calendar = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData fishingrod_1 = IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData filled_location = IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData depth_type = IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData menu_left = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData scroll = IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData delete = IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData star = IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData edit = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData view = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData minus = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData current_geo = IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData plus = IconData(0xe817, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData chevron_back = IconData(0xe818, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData share = IconData(0xe819, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData chevron_forward = IconData(0xe81a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData arrow_down = IconData(0xe81b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bug = IconData(0xe81c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData message_bubble = IconData(0xe81d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData question = IconData(0xe81e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData tree = IconData(0xe81f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData fish = IconData(0xe820, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData mapmarker = IconData(0xe821, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

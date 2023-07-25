@@ -6,9 +6,10 @@ import 'package:rive/rive.dart';
 
 class DayNightChangerWidget extends StatefulWidget {
   const DayNightChangerWidget({
+    this.isDay,
     super.key,
   });
-
+  final bool? isDay;
   @override
   State<DayNightChangerWidget> createState() => _DayNightChangerWidgetState();
 }
@@ -23,6 +24,9 @@ class _DayNightChangerWidgetState extends State<DayNightChangerWidget> {
     );
     artboard.addController(controller!);
     _boolInput = controller.findInput<bool>('day') as SMIBool;
+    if (widget.isDay != null) {
+      _boolInput!.value = widget.isDay!;
+    }
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fishy/constants.dart';
 import 'package:fishy/repositories/local_storage_repo.dart';
@@ -7,13 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'firebase_options.dart';
 
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPrefs = await SharedPreferences.getInstance();
@@ -41,10 +42,13 @@ void main() async {
   );
 }
 
+final botToastBuilder = BotToastInit();
+
 class MyApp extends ConsumerWidget {
   MyApp({super.key});
   final _appRouter =
       AppRouter(introductionGuard: IntroductionGuard(), authGuard: AuthGuard());
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Sizer(
@@ -52,8 +56,15 @@ class MyApp extends ConsumerWidget {
           DeviceType deviceType) {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
+          builder: (context, child) {
+            return botToastBuilder(context, child);
+          },
           routeInformationParser: _appRouter.defaultRouteParser(),
-          routerDelegate: _appRouter.delegate(),
+          routerDelegate: _appRouter.delegate(
+            navigatorObservers: () {
+              return [BotToastNavigatorObserver()];
+            },
+          ),
           supportedLocales: const [
             Locale('ru'),
             Locale('en'),
@@ -70,9 +81,13 @@ class MyApp extends ConsumerWidget {
             primaryColor: primaryColor,
             colorScheme: const ColorScheme.light(
               primary: primaryColor,
-              //onSurface: grayscalePlacehold,
+              onSurface: grayscaleBody,
+              onBackground: grayscaleOffBlack,
+              secondaryContainer: grayscalePlacehold,
               surfaceTint: Colors.white,
               error: red500,
+              primaryContainer: grayscaleInput,
+              onPrimaryContainer: grayscaleInput,
             ),
             navigationBarTheme: const NavigationBarThemeData(
               indicatorColor: primaryColor,

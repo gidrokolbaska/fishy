@@ -2,7 +2,7 @@ import 'package:fishy/constants.dart';
 import 'package:fishy/reusable%20widgets/fishy_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
 class PointCreationListTile extends StatelessWidget {
   const PointCreationListTile({
@@ -13,14 +13,20 @@ class PointCreationListTile extends StatelessWidget {
     this.subtitle,
     this.showTrailing = true,
     this.provider,
+    this.enabled = true,
+    this.shouldCountExistingFirebaseImages = false,
+    this.amountOfExistingFirebaseImages = 0,
   });
   final String title;
   final bool shouldShowUnderlineBorder;
   final VoidCallback? onTap;
   final Widget? subtitle;
   final bool showTrailing;
+  final bool enabled;
 
   final ProviderListenable? provider;
+  final bool shouldCountExistingFirebaseImages;
+  final int amountOfExistingFirebaseImages;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +45,7 @@ class PointCreationListTile extends StatelessWidget {
       ),
       child: ListTile(
         dense: true,
+        enabled: enabled,
         title: Text(
           title,
           style: const TextStyle(
@@ -72,7 +79,44 @@ class PointCreationListTile extends StatelessWidget {
                               return Text(
                                 MaterialLocalizations.of(context)
                                     .formatShortDate(value),
-                                style: TextStyle(
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            case List<String>:
+                              if (value.length == 0) {
+                                return const Icon(Icons.remove);
+                              }
+
+                              return Text(
+                                'Выбрано: ${value.length.toString()}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            case List<ImageFile>:
+                              if (shouldCountExistingFirebaseImages) {
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Текущие: $amountOfExistingFirebaseImages',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Выбрано: ${value.length}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                              return Text(
+                                'Выбрано: ${value.length.toString()}',
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               );
@@ -87,7 +131,7 @@ class PointCreationListTile extends StatelessWidget {
                     },
                   ),
                   const Icon(
-                    FishyIcons.chevronForward,
+                    FishyIcons.chevron_forward,
                   )
                 ],
               )
